@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900">
+    {% if messages %} {% for message in messages %}
+    <div class="bg-blue-200 text-blue-800 p-4 mb-4 rounded-md">
+        <strong>{{message}}</strong>
+    </div>
+    {% endfor %} {% endif %}
+
+    <div class="container mx-auto">
+        <div class="text-center my-8">
+            <h1 class="text-gray-200 text-3xl font-bold italic">TODO LIST</h1>
+            <hr class="mt-4">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                {% for i in list %}
+                <div class="bg-white shadow-md rounded-md p-4">
+                    <div class="font-bold text-lg mb-2">{{i.title}}</div>
+                    <hr class="my-2">
+                    <p class="text-gray-600 mb-4">{{i.date}}</p>
+                    <p class="text-gray-800">{{i.details}}</p>
+                    <form action="/del/{{i.id}}" method="POST" class="text-right mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            <div>
+                <div class="bg-gray-700 shadow-md rounded-md p-4">
+                    <form method="POST" class="mb-4">
+                        {% csrf_token %}
+                        {{forms}}
+                        <div class="text-center mt-4">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
